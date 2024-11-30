@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://vidyakul.com/css/font-awesome1.min.css">
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 15px;
+    }
+
+    .heading {
+        text-align: center;
+    }
+
+    .week {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        color: #AFAFAF;
+        font-weight: bolder;
+    }
+
+
+    .done img,
+    .current img {
+        display: block;
+    }
+
+    .streak-week {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        width: 100%;
+        /* padding: 15px; */
+    }
+
+    .streak-check {
+        width: 30px;
+        height: 30px;
+    }
+
+    .current {
+        color: orange;
+    }
+
+    .check {
+        width: 30px;
+        height: 30px;
+        background: #ebebeb;
+        border-radius: 50%;
+    }
+
+    .week-cont {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        gap: 20px;
+        border: 3px solid #E5E5E5;
+        border-radius: 10px;
+    }
+
+    .lessons-cont {
+        display: flex;
+        padding: 20px;
+        border: 3px solid #E5E5E5;
+        justify-content: space-between;
+        border-radius: 10px;
+        align-items: center;
+    }
+
+
+    .lesson {
+        width: 80px;
+    }
+
+    .lessons-cont .text {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        gap: 10px;
+    }
+
+    .week-chart {
+        display: flex;
+        gap: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .graph-items {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items: center;
+        position: relative;
+        gap: 5px;
+    }
+
+    .graph-items .ticks {
+        font-size: 14px;
+        color: #ccc;
+        width: max-content;
+    }
+
+    .graph-items:first-child {
+        border-right: 1px solid #ccc;
+        /* padding-right: 10px; */
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .graph-items img {
+        width: 90%;
+        padding: 8px 8px 0 8px;
+        border-radius: 12px 12px 0 0;
+    }
+
+    .current img {
+        border: 2px solid #ccc;
+        border-bottom: none;
+    }
+
+    .x-ticks {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        font-size: 12px;
+        text-align: center;
+        gap: 10px;
+        margin-top: 5px;
+        color: #AFAFAF;
+    }
+
+    .x-ticks .tick:first-child {
+        width: 40px;
+        color: transparent;
+    }
+
+    .x-ticks .tick {
+        width: calc(100% / 3);
+    }
+
+    .x-ticks .tick:last-child {
+        color: black;
+        font-weight: 600;
+    }
+
+    .tooltip-item {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        /* top: 0; */
+        /* bottom: 100%; */
+    }
+
+    .graph-cont {
+        margin-top: 50px;
+    }
+
+    .tooltip-item img {
+        padding: 5px;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .points {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-weight: 700;
+        transform: translate(-50%, -50%);
+        color: #ccc;
+        font-size: 12px;
+        width: max-content;
+        padding-bottom: 3px;
+    }
+
+    .current .points {
+        color: white;
+    }
+</style>
+
+<body>
+
+    <div class="heading">
+        <h3>Your weekly report</h3>
+        <p>November 23 - November 29</p>
+    </div>
+
+    <div class="week-cont">
+        <div class="text" style=" color: #747474; font-size: 18px;">
+            You earned <span style="color: #543ae3; font-weight: 700;">150% </span> more XP this week. You surpassed
+            <span style="color: #543ae3; font-weight: 700;">84% </span> of Vidyakul learners!
+        </div>
+
+        <div class="graph-cont">
+
+            <div class="tooltips-cont">
+
+            </div>
+
+            <div class="week-chart">
+                <div class="graph-items">
+                    <span class="ticks">100 -</span>
+                    <span class="ticks">50 -</span>
+                    <span class="ticks">0 -</span>
+                </div>
+                <div class="graph-items">
+                    <div class="tooltip-item">
+                        <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/43163/time_2024-11-30_14:25:37.png"
+                            alt="">
+                        <span class="points">463 XP</span>
+                    </div>
+                    <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/93157/time_2024-11-30_12:44:02.png"
+                        alt="" style="height: 70%; opacity: .4;" class="bar">
+                </div>
+                <div class="graph-items">
+                    <div class="tooltip-item">
+                        <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/43163/time_2024-11-30_14:25:37.png"
+                            alt="">
+                        <span class="points">463 XP</span>
+
+                    </div>
+                    <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/93157/time_2024-11-30_12:44:02.png"
+                        alt="" style="height: 40%; opacity: .4;" class="bar">
+                </div>
+                <div class="graph-items current">
+                    <div class="tooltip-item">
+                        <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/63632/time_2024-11-30_14:25:37.png"
+                            alt="" style="border: none;">
+                        <span class="points">463 XP</span>
+
+                    </div>
+                    <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/93157/time_2024-11-30_12:44:02.png"
+                        alt="" style="height: 100%;" class="bar">
+                </div>
+            </div>
+
+            <div class="x-ticks">
+                <span class="tick">bb</span>
+                <span class="tick">2 weeks ago</span>
+                <span class="tick">Last week</span>
+                <span class="tick">This week</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="week-cont">
+        <div class="text" style=" color: #747474; font-size: 18px;">
+            You are currently on <span style="color: #543ae3; font-weight: 700;">18 day streak</span>
+        </div>
+
+        <div class="streak-week">
+            <div class="week">
+                <div class="day">Su</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/18979/time_2024-11-30_12:44:02.png">
+            </div>
+            <div class="week">
+                <div class="day">Mo</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/18979/time_2024-11-30_12:44:02.png">
+            </div>
+            <div class="week">
+                <div class="day">Tu</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/18979/time_2024-11-30_12:44:02.png">
+            </div>
+            <div class="week">
+                <div class="day">We</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/18979/time_2024-11-30_12:44:02.png">
+            </div>
+            <div class="week">
+                <div class="day">Th</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/18979/time_2024-11-30_12:44:02.png">
+            </div>
+            <div class="week">
+                <div class="day">Fr</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/18979/time_2024-11-30_12:44:02.png">
+            </div>
+            <div class="week">
+                <div class="day">Sa</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/18979/time_2024-11-30_12:44:02.png">
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="lessons-cont">
+        <div class="text" style="font-size: 18px;">
+            <span style="color: #57A600; font-weight: 700; font-size: 20px;">10 Lessons</span>
+            <span>You completed <strong>4 more lessons</strong> than the previous week. </span>
+        </div>
+
+        <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/80198/time_2024-11-30_12:44:02.png"
+            alt="" class="lesson">
+
+    </div>
+
+    <div class="lessons-cont">
+        <div class="text" style="font-size: 18px;">
+            <span style="color: #633ca7; font-weight: 700; font-size: 20px;">35 minutes</span>
+            <span>You spent <strong>8 more minutes</strong> learning than the previous week. </span>
+        </div>
+
+        <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/45859/time_2024-11-30_12:44:02.png"
+            alt="" class="lesson" style="width: 90px; padding: 10px;">
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $('.graph-items').each(function () {
+            // Get the height of the .bar element
+            var barHeight = $(this).find('.bar').height();
+
+            // Get the height of the parent container
+            var parentHeight = $(this).height();
+
+            // Calculate the height percentage
+            var percentage = (barHeight / parentHeight) * 100;
+
+            // Log the percentage
+            console.log('Bar height percentage: ' + percentage + '%');
+
+            $(this).find('.tooltip-item').css('bottom', `${Math.floor(percentage) + 10}%`);
+        });
+    </script>
+
+
+
+</body>
+
+</html>

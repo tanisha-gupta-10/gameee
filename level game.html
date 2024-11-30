@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alternating Levels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Nunito&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 0;
+            background-color: #f0f0f0;
+            font-family: 'Nunito', sans-serif;
+            background: url('https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/63363/time_2024-11-08_12:56:05.png');
+            /* background: url('https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/75325/time_2024-11-08_12:56:05.png');  to be used*/
+            /* background: url('https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/21609/time_2024-11-08_12:56:05.jpg'); */
+            background-position: bottom;
+            background-repeat: repeat-y;
+            /* background-size: cover; */
+            background-size: 100% 1100px;
+            /* background-repeat: no    -repeat; */
+        }
+
+        .container {
+            position: relative;
+            width: 400px;
+
+        }
+
+        .curve {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .circle {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background-color: rgb(197 196 196);
+            border-radius: 50%;
+            border: 1px solid white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            flex-direction: column;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25),
+                0px 4px 0px 0px rgba(211, 211, 211, 0.4) inset;
+            z-index: 2;
+        }
+
+        .current {
+            background-color: #0A7A2A;
+            /* background-color: #a65ce7; */
+            width: 90px;
+            height: 90px;
+            z-index: 2;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .current::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background-color: #0A7A2A50;
+            /* background-color: #5F179F50; */
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: rippleEffect 1.5s infinite ease-out;
+        }
+
+        .level span:first-child {
+            /* font-size: 12px; */
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .solved span:nth-child(2) {
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .level span:last-child {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        svg {
+            position: absolute;
+            left: inherit;
+            bottom: 75px;
+            transform: rotate(8deg);
+            stroke-width: 3;
+        }
+
+        svg path {
+            stroke: #0A7A2A20 !important;
+            /* stroke: #5F179F20 !important; */
+        }
+
+        .solved {
+            background-color: #0A7A2A;
+            /* background-color: #5F179F; */
+            width: 90px;
+            height: 90px;
+            z-index: 2;
+        }
+
+        .circle img {
+            display: none;
+        }
+
+        .solved img {
+            position: absolute;
+            width: 100%;
+            top: 65%;
+            display: block;
+            z-index: 3;
+        }
+
+        .circle .level {
+            display: none;
+        }
+
+        .solved .level,
+        .current .level {
+            display: flex;
+        }
+
+        .level {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .solved>svg path {
+            stroke-dasharray: 0 0;
+        }
+
+        .current .level-popup {
+            display: flex;
+        }
+
+        .level-popup {
+            width: 220px;
+            height: max-content;
+            background: white;
+            position: absolute;
+            top: -170px;
+            left: 14px;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 0 2px 0px #0a7a2a;
+            color: black;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            z-index: 2;
+            text-align: center;
+            font-size: medium;
+        }
+
+        .btn {
+            background: #0A7A2A;
+            padding: 8px 0;
+            color: white;
+            text-align: center;
+            border-radius: 20px;
+            width: 100%;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .subject {
+            font-size: 18px;
+        }
+
+        .levelName {
+            color: rgb(90, 90, 90);
+        }
+
+        .levelName span {
+            font-size: 17px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Circles (Levels) -->
+        <!-- <div class="circle solved">
+
+            <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/90260/time_2024-11-08_12:56:05.png"
+                alt="">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>1</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none">
+                <path
+                    d="M1.05603 222.677L7.72091 205.126C20.8997 170.421 43.4774 140.07 72.9267 117.468L88.7894 105.294L104.706 90.9516C129.394 68.7067 148.149 40.661 159.278 9.34878L162.215 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle current">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>2</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none" style="left: -127px;
+            transform: rotate(-6deg);">
+                <path
+                    d="M161.774 222.677L155.109 205.126C141.93 170.421 119.353 140.07 89.9034 117.468L74.0407 105.294L58.1239 90.9516C33.4366 68.7067 14.6812 40.661 3.55256 9.34878L0.61499 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>3</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none">
+                <path
+                    d="M1.05603 222.677L7.72091 205.126C20.8997 170.421 43.4774 140.07 72.9267 117.468L88.7894 105.294L104.706 90.9516C129.394 68.7067 148.149 40.661 159.278 9.34878L162.215 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>4</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none" style="left: -127px;
+            transform: rotate(-6deg);">
+                <path
+                    d="M161.774 222.677L155.109 205.126C141.93 170.421 119.353 140.07 89.9034 117.468L74.0407 105.294L58.1239 90.9516C33.4366 68.7067 14.6812 40.661 3.55256 9.34878L0.61499 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>5</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none">
+                <path
+                    d="M1.05603 222.677L7.72091 205.126C20.8997 170.421 43.4774 140.07 72.9267 117.468L88.7894 105.294L104.706 90.9516C129.394 68.7067 148.149 40.661 159.278 9.34878L162.215 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>6</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none" style="left: -127px;
+            transform: rotate(-6deg);">
+                <path
+                    d="M161.774 222.677L155.109 205.126C141.93 170.421 119.353 140.07 89.9034 117.468L74.0407 105.294L58.1239 90.9516C33.4366 68.7067 14.6812 40.661 3.55256 9.34878L0.61499 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>7</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none">
+                <path
+                    d="M1.05603 222.677L7.72091 205.126C20.8997 170.421 43.4774 140.07 72.9267 117.468L88.7894 105.294L104.706 90.9516C129.394 68.7067 148.149 40.661 159.278 9.34878L162.215 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>8</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none" style="left: -127px;
+            transform: rotate(-6deg);">
+                <path
+                    d="M161.774 222.677L155.109 205.126C141.93 170.421 119.353 140.07 89.9034 117.468L74.0407 105.294L58.1239 90.9516C33.4366 68.7067 14.6812 40.661 3.55256 9.34878L0.61499 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>9</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none">
+                <path
+                    d="M1.05603 222.677L7.72091 205.126C20.8997 170.421 43.4774 140.07 72.9267 117.468L88.7894 105.294L104.706 90.9516C129.394 68.7067 148.149 40.661 159.278 9.34878L162.215 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+
+            <div class="level">
+                <span>Lvl</span>
+                <span>10</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none" style="left: -127px;
+            transform: rotate(-6deg);">
+                <path
+                    d="M161.774 222.677L155.109 205.126C141.93 170.421 119.353 140.07 89.9034 117.468L74.0407 105.294L58.1239 90.9516C33.4366 68.7067 14.6812 40.661 3.55256 9.34878L0.61499 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+            <div class="level">
+                <span>Lvl</span>
+                <span>11</span>
+            </div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none">
+                <path
+                    d="M1.05603 222.677L7.72091 205.126C20.8997 170.421 43.4774 140.07 72.9267 117.468L88.7894 105.294L104.706 90.9516C129.394 68.7067 148.149 40.661 159.278 9.34878L162.215 1.08343"
+                    stroke="white" stroke-dasharray="12 12" />
+            </svg>
+        </div>
+        <div class="circle">
+            <div class="level">
+                <span>Lvl</span>
+                <span>2</span>
+            </div>
+        </div> -->
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+
+            let user_id = 263;
+
+            function getResult(questions, user_id, mock_id, mocktest_name) {
+                $.ajax({
+                    type: "post",
+                    url: "https://vidyakul.com/quiz-game-result",
+                    data: {
+                        questions: questions,
+                        user_id: user_id,
+                        mock_id: mock_id,
+                        mocktest_name: mocktest_name,
+                    },
+                    dataType: "dataType",
+                    success: function (response) {
+                        console.log(response.attempted);
+
+                        if (response.attempted === questions) {
+                            // Display success message
+                            alert("Congratulations! You have successfully completed the mocktest.");
+                        } else {
+                            // Display failed message
+                            alert("Failed to complete the mocktest. Please try again.");
+                        }
+                        return response;
+                    }
+                });
+            }
+
+            $.ajax({
+                type: "get",
+                url: "https://vidyakul.com/start-quiz-game-api?user_id=263",
+                success: function (response) {
+                    console.log(response.data[2]);
+
+                    $.each(response.data[2].chapters, function (index, value) {
+
+                        // getResult(value.questions_count, 263, `100${value.id - 1}`, value.name);
+
+
+                        var circle = `<div class="circle ${index === 4 ? 'current' : index < 4 ? 'solved' : ''}">
+                <img src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/90260/time_2024-11-08_12:56:05.png" alt="">
+                <div class="level">
+                    <span>Lvl</span>
+                    <span>${index + 1}</span>
+                </div>
+
+                ${index % 2 != 0 ? `<svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none" style="left: -127px; transform: rotate(-6deg);">
+                    <path d="M161.774 222.677L155.109 205.126C141.93 170.421 119.353 140.07 89.9034 117.468L74.0407 105.294L58.1239 90.9516C33.4366 68.7067 14.6812 40.661 3.55256 9.34878L0.61499 1.08343" stroke="white" stroke-dasharray="12 12" />
+                </svg>` : index === response.data[2].chapters.length - 1 ? '' : `<svg xmlns="http://www.w3.org/2000/svg" width="163" height="223" viewBox="0 0 163 223" fill="none">
+                    <path d="M1.05603 222.677L7.72091 205.126C20.8997 170.421 43.4774 140.07 72.9267 117.468L88.7894 105.294L104.706 90.9516C129.394 68.7067 148.149 40.661 159.278 9.34878L162.215 1.08343" stroke="white" stroke-dasharray="12 12" />
+                </svg>`}
+
+                            <div class='level-popup' style='left : ${index % 2 != 0 ? '-150px' : '-14px'}'>
+                                    
+                                    <div class='subject' style='color : ${response.data[2].maincolor}'> ${response.data[2].name} </div>
+
+                                    <div class='levelName'> Level <span>${index + 1} </span>  of ${response.data[2].chapters.length}
+                                        
+                                        <div class='levelName'> Total Questions:     <span>${value.questions_count + 1} </span></div>
+                                        
+                                        </div>
+                                    
+                                    
+
+                                    <div class='btn' data-id="${value.id}" data-ques=${value.questions_count} data-name=${value.name}> Start </div>
+
+                                </div>
+                            </div>`;
+
+                        $('.container').append(circle);
+                    });
+
+
+                    $(document).on('click', '.btn', function (e) {
+                        const id = $(this).data('id');
+                        const ques = $(this).data('ques');
+                        const name = $(this).data('name');
+
+                        window.location.href = `https://vidyakul.com/start-quiz-game-newdesign/${id}?user_id=${user_id}`;
+                        // https://vidyakul.com/start-quiz-game-newdesign/653?user_id=263
+                    });
+
+                    const circles = $('.circle');
+                    const container = $('.container');
+                    const baseTop = 580 * circles.length ; // Starting top position for the first level
+                    const increment = -60; // Adjust the gap between levels here
+
+                    container.css('height', `${baseTop + 100}px`);
+
+                    circles.each(function (index) {
+                        const topPosition = baseTop + (increment * index) * 6;
+                        const leftPosition = index % 2 === 0 ? 50 : 250;
+
+                        $(this).css({
+                            'top': `${topPosition - 100}px`,
+                            'left': `${leftPosition}px`
+                        });
+                    });
+
+                    // Scroll to the current level once the elements are appended and positioned
+                    const currentLevel = $('.current');
+                    if (currentLevel.length) {
+                        $('html, body').animate({
+                            scrollTop: currentLevel.offset().top - ($(window).height() / 2) + (currentLevel.height() / 2)
+                        }, 800);
+                    }
+                }
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>

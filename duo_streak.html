@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Nunito&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100vh;
+    }
+
+    .streakCont {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .bigText {
+        font-weight: 900;
+        font-size: 70px;
+        position: relative;
+        font-size: 60px;
+        font-weight: bold;
+        color: white;
+        /* Text fill color */
+        -webkit-text-stroke: 2px #000;
+        /* Outline thickness and color */
+        text-align: center;
+        /* color: #fff; */
+    }
+
+    .streak-count {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 115px;
+    }
+
+    .fix-stroke {
+        color: #ebebeb;
+        font-size: 32px;
+        font-weight: bolder;
+        /* -webkit-text-stroke: 1px orange; */
+        paint-order: stroke fill;
+    }
+
+    svg {
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        top: -130px;
+    }
+
+    .week {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        color: #cbcbcb;
+        font-weight: bolder;
+    }
+
+    .week img {
+        display: none;
+    }
+
+    .done img,
+    .current img {
+        display: block;
+    }
+
+    .streak-week {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .streak-check {
+        width: 35px;
+        height: 35px;
+    }
+
+    .current {
+        color: orange;
+    }
+
+    .check {
+        width: 35px;
+        height: 35px;
+        background: #ebebeb;
+        border-radius: 50%;
+    }
+
+    .week-cont {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        /* padding: 15px; */
+        /* gap: 20px; */
+        border: 2px solid #ebebeb;
+        border-radius: 10px;
+    }
+
+    hr {
+        margin: 0;
+        border-top: 2px solid #ebebeb;
+        width: 100%;
+    }
+
+    .streak-cta {
+        display: flex;
+        justify-content: center;
+        border-radius: 10px;
+        cursor: pointer;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .cta {
+        background: #543ae3;
+        color: white;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        border-radius: 15px;
+        font-weight: 700;
+        font-size: 20px;
+        border-bottom: 6px solid #20099b;
+    }
+
+    .remove {
+        animation: hide .5s ease-in-out;
+    }
+
+    .show {
+        animation: show 0.5s ease-in-out;
+    }
+
+    @keyframes hide {
+        from {
+            transform: translateY(0);
+        }
+
+        to {
+            transform: translateY(50%);
+            opacity: 0;
+        }
+    }
+
+    @keyframes show {
+        0% {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        80% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        90% {
+            transform: translateY(10px);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .showSvg {
+        animation: showSvg .5s ease-in-out;
+    }
+
+    @keyframes showSvg {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    .addAnim {
+        animation: leZoomOut 1s ease-in-out;
+    }
+
+    @keyframes leZoomOut {
+        from {
+            transform: scale(0);
+            opacity: .4;
+        }
+
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .swipeUp {
+        animation: swipeUp 1s ease-in-out;
+    }
+
+    @keyframes swipeUp {
+
+        from {
+            translate: translateY(-100%);
+            opacity: 0;
+        }
+
+        to {
+            translate: translateY(0);
+            opacity: 1;
+        }
+    }
+
+
+    .danceBottom {
+        animation-name: danceBottom;
+        transform-origin: bottom
+    }
+
+    @keyframes danceBottom {
+        16% {
+            transform: skew(-14deg)
+        }
+
+        33% {
+            transform: skew(12deg)
+        }
+
+        49% {
+            transform: skew(-8deg)
+        }
+
+        66% {
+            transform: skew(6deg)
+        }
+
+        83% {
+            transform: skew(-4deg)
+        }
+    }
+</style>
+
+<body>
+
+    <div class="streakCont">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 320 800"
+            width="320" height="300" preserveAspectRatio="xMidYMid meet"
+            style=" transform: translate3d(0px, 0px, 0px); content-visibility: visible;">
+            <defs>
+                <clipPath id="__lottie_element_3364">
+                    <rect width="320" height="800" x="0" y="0"></rect>
+                </clipPath>
+                <clipPath id="__lottie_element_3366">
+                    <path d="M0,0 L2400,0 L2400,3000 L0,3000z"></path>
+                </clipPath>
+                <clipPath id="__lottie_element_3381">
+                    <path d="M0,0 L102,0 L102,127 L0,127z"></path>
+                </clipPath>
+            </defs>
+            <g clip-path="url(#__lottie_element_3364)">
+                <g clip-path="url(#__lottie_element_3366)" transform="matrix(1,0,0,1,-1040,-851)" opacity="1"
+                    style="display: block;">
+                    <g class="flicker"
+                        transform="matrix(0.9774096608161926,0.20849114656448364,-0.21138252317905426,0.964040219783783,1206.2803955078125,1502.998046875)"
+                        opacity="1" style="display: block;">
+                        <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                            <path fill="orange" fill-opacity="1"
+                                d=" M-14.170000076293945,-16.753000259399414 C-14.170000076293945,-16.753000259399414 11.25,-0.37299999594688416 11.25,-0.37299999594688416 C12.890000343322754,0.6769999861717224 13.369999885559082,2.8570001125335693 12.3100004196167,4.497000217437744 C11.720000267028809,5.416999816894531 10.729999542236328,6.017000198364258 9.630000114440918,6.10699987411499 C9.630000114440918,6.10699987411499 -16.18000030517578,8.22700023651123 -16.18000030517578,8.22700023651123 C-18.1299991607666,8.38700008392334 -19.829999923706055,6.936999797821045 -19.989999771118164,4.997000217437744 C-20,4.896999835968018 -20,4.807000160217285 -20,4.706999778747559 C-20,4.706999778747559 -20,-13.572999954223633 -20,-13.572999954223633 C-20,-15.663000106811523 -18.309999465942383,-17.35300064086914 -16.219999313354492,-17.35300064086914 C-15.489999771118164,-17.35300064086914 -14.779999732971191,-17.14299964904785 -14.170000076293945,-16.753000259399414z">
+                            </path>
+                            <g opacity="1" transform="matrix(1,0,0,1,0,0)"></g>
+                        </g>
+                    </g>
+                    <g transform="matrix(0.9993330836296082,-0.0361795648932457,0.03668130561709404,0.9856637716293335,1198.1575927734375,1502.3692626953125)"
+                        opacity="1" style="display: block;">
+                        <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                            <path fill="orange" fill-opacity="1"
+                                d=" M2.9839999675750732,-23.492000579833984 C2.9839999675750732,-23.492000579833984 15.564000129699707,-7.3520002365112305 15.564000129699707,-7.3520002365112305 C16.753999710083008,-5.822000026702881 16.483999252319336,-3.6019999980926514 14.944000244140625,-2.4019999504089355 C14.324000358581543,-1.9220000505447388 13.564000129699707,-1.6619999408721924 12.77400016784668,-1.6619999408721924 C12.77400016784668,-1.6619999408721924 -12.776000022888184,-1.6619999408721924 -12.776000022888184,-1.6619999408721924 C-14.72599983215332,-1.6619999408721924 -16.305999755859375,-3.242000102996826 -16.305999755859375,-5.182000160217285 C-16.305999755859375,-5.9720001220703125 -16.04599952697754,-6.73199987411499 -15.555999755859375,-7.3520002365112305 C-15.555999755859375,-7.3520002365112305 -2.9860000610351562,-23.492000579833984 -2.9860000610351562,-23.492000579833984 C-1.6959999799728394,-25.142000198364258 0.6740000247955322,-25.43199920654297 2.3239998817443848,-24.152000427246094 C2.563999891281128,-23.961999893188477 2.7939999103546143,-23.742000579833984 2.9839999675750732,-23.492000579833984z">
+                            </path>
+                            <g opacity="1" transform="matrix(1,0,0,1,0,0)"></g>
+                        </g>
+                    </g>
+                    <g transform="matrix(1.000006079673767,0,0,0.986327588558197,1200,1502.3359375)" opacity="1"
+                        style="display: block;">
+                        <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                            <path fill="orange" fill-opacity="1"
+                                d=" M0,-14.694000244140625 C11.038000106811523,-14.694000244140625 20,-5.811313629150391 20,5.129000186920166 C20,16.069313049316406 11.038000106811523,24.95199966430664 0,24.95199966430664 C-11.038000106811523,24.95199966430664 -20,16.069313049316406 -20,5.129000186920166 C-20,-5.811313629150391 -11.038000106811523,-14.694000244140625 0,-14.694000244140625z">
+                            </path>
+                            <g opacity="1" transform="matrix(1,0,0,1,0,0)"></g>
+                        </g>
+                    </g>
+                    <g clip-path="url(#__lottie_element_3381)"
+                        transform="matrix(1.0529987812042236,-0.07286791503429413,0.07692898064851761,0.9974111914634705,1140.43994140625,1478.94970703125)"
+                        opacity="1" style="display: block;">
+                        <g transform="matrix(1,0,0,1,51.209999084472656,76.81400299072266)" opacity="1"
+                            style="display: block;">
+                            <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                                <path fill="rgb(255,200,0)" fill-opacity="1"
+                                    d=" M0,-8.40999984741211 C4.710466384887695,-8.40999984741211 8.53499984741211,-4.641479015350342 8.53499984741211,0 C8.53499984741211,4.641479015350342 4.710466384887695,8.40999984741211 0,8.40999984741211 C-4.710466384887695,8.40999984741211 -8.53499984741211,4.641479015350342 -8.53499984741211,0 C-8.53499984741211,-4.641479015350342 -4.710466384887695,-8.40999984741211 0,-8.40999984741211z">
+                                </path>
+                            </g>
+                        </g>
+                        <g transform="matrix(1,0,0,1,51.209999084472656,29.892000198364258)" opacity="1"
+                            style="display: block;">
+                            <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                                <path fill="rgb(255,200,0)" fill-opacity="1"
+                                    d=" M1.277999997138977,-4.321000099182129 C1.277999997138977,-4.321000099182129 6.618000030517578,2.499000072479248 6.618000030517578,2.499000072479248 C7.138000011444092,3.1589999198913574 7.01800012588501,4.109000205993652 6.357999801635742,4.61899995803833 C6.0980000495910645,4.828999996185303 5.76800012588501,4.939000129699707 5.427999973297119,4.939000129699707 C5.427999973297119,4.939000129699707 -5.432000160217285,4.939000129699707 -5.432000160217285,4.939000129699707 C-6.26200008392334,4.939000129699707 -6.941999912261963,4.269000053405762 -6.941999912261963,3.428999900817871 C-6.941999912261963,3.0889999866485596 -6.831999778747559,2.7690000534057617 -6.622000217437744,2.499000072479248 C-6.622000217437744,2.499000072479248 -1.2719999551773071,-4.321000099182129 -1.2719999551773071,-4.321000099182129 C-0.722000002861023,-5.020999908447266 0.2980000078678131,-5.151000022888184 0.9980000257492065,-4.60099983215332 C1.0980000495910645,-4.511000156402588 1.1979999542236328,-4.421000003814697 1.277999997138977,-4.321000099182129z">
+                                </path>
+                            </g>
+                        </g>
+                    </g>
+                    <g transform="matrix(0.14416702091693878,0.0025164447724819183,-0.0025164447724819183,0.14416702091693878,1162.2750244140625,1224.6102294921875)"
+                        opacity="1" style="display: none;">
+                        <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                            <path fill="rgb(255,155,0)" fill-opacity="1"
+                                d=" M4.125,-35.11600112915039 C4.125,-35.11600112915039 18.184999465942383,16.423999786376953 18.184999465942383,16.423999786376953 C20.844999313354492,26.173999786376953 15.095000267028809,36.23400115966797 5.355000019073486,38.89400100708008 C3.7850000858306885,39.31399917602539 2.1649999618530273,39.534000396728516 0.5350000262260437,39.534000396728516 C-10.164999961853027,39.534000396728516 -18.834999084472656,30.86400032043457 -18.834999084472656,20.163999557495117 C-18.834999084472656,18.804000854492188 -18.69499969482422,17.444000244140625 -18.405000686645508,16.11400032043457 C-18.405000686645508,16.11400032043457 -7.525000095367432,-34.7859992980957 -7.525000095367432,-34.7859992980957 C-6.835000038146973,-38.0260009765625 -3.6449999809265137,-40.09600067138672 -0.4050000011920929,-39.40599822998047 C1.7949999570846558,-38.93600082397461 3.5350000858306885,-37.2760009765625 4.125,-35.11600112915039z">
+                            </path>
+                        </g>
+                    </g>
+                    <g transform="matrix(0.08601778000593185,0.0015014460077509284,-0.0015014460077509284,0.08601778000593185,1250.0511474609375,1091.1163330078125)"
+                        opacity="1" style="display: none;">
+                        <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                            <path fill="orange" fill-opacity="1"
+                                d=" M4.125,-35.11600112915039 C4.125,-35.11600112915039 18.184999465942383,16.423999786376953 18.184999465942383,16.423999786376953 C20.844999313354492,26.173999786376953 15.095000267028809,36.23400115966797 5.355000019073486,38.89400100708008 C3.7850000858306885,39.31399917602539 2.1649999618530273,39.534000396728516 0.5350000262260437,39.534000396728516 C-10.164999961853027,39.534000396728516 -18.834999084472656,30.86400032043457 -18.834999084472656,20.163999557495117 C-18.834999084472656,18.804000854492188 -18.69499969482422,17.444000244140625 -18.405000686645508,16.11400032043457 C-18.405000686645508,16.11400032043457 -7.525000095367432,-34.7859992980957 -7.525000095367432,-34.7859992980957 C-6.835000038146973,-38.0260009765625 -3.6449999809265137,-40.09600067138672 -0.4050000011920929,-39.40599822998047 C1.7949999570846558,-38.93600082397461 3.5350000858306885,-37.2760009765625 4.125,-35.11600112915039z">
+                            </path>
+                        </g>
+                    </g>
+                    <g transform="matrix(0.026563668623566628,0.0004636705562006682,-0.0004636705562006682,0.026563668623566628,1150.822265625,1247.8609619140625)"
+                        opacity="0.059485299842825586" style="display: block;">
+                        <g opacity="1" transform="matrix(6,0,0,6,0,0)">
+                            <path fill="orange" fill-opacity="1"
+                                d=" M4.125,-35.11600112915039 C4.125,-35.11600112915039 18.184999465942383,16.423999786376953 18.184999465942383,16.423999786376953 C20.844999313354492,26.173999786376953 15.095000267028809,36.23400115966797 5.355000019073486,38.89400100708008 C3.7850000858306885,39.31399917602539 2.1649999618530273,39.534000396728516 0.5350000262260437,39.534000396728516 C-10.164999961853027,39.534000396728516 -18.834999084472656,30.86400032043457 -18.834999084472656,20.163999557495117 C-18.834999084472656,18.804000854492188 -18.69499969482422,17.444000244140625 -18.405000686645508,16.11400032043457 C-18.405000686645508,16.11400032043457 -7.525000095367432,-34.7859992980957 -7.525000095367432,-34.7859992980957 C-6.835000038146973,-38.0260009765625 -3.6449999809265137,-40.09600067138672 -0.4050000011920929,-39.40599822998047 C1.7949999570846558,-38.93600082397461 3.5350000858306885,-37.2760009765625 4.125,-35.11600112915039z">
+                            </path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+        <div class="streak-count">
+            <!-- <img src="Group 20961 (2).svg" alt="" width="100px" class="show"> -->
+            <img src="Group 20963.svg" alt="" width="100px">
+            <span class="streakText fix-stroke">day streak!</span>
+        </div>
+    </div>
+
+    <div class="week-cont">
+        <div class="streak-week">
+            <div class="week done">
+                <div class="day">Su</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/37066/time_2024-11-22_14:51:05.png">
+            </div>
+            <div class="week current">
+                <div class="day">Mo</div>
+                <img class="streak-check"
+                    src="https://d2horkaojb0g6v.cloudfront.net/singleliveclass/new-single-liveclass/37066/time_2024-11-22_14:51:05.png">
+            </div>
+            <div class="week">
+                <div class="day">Tu</div>
+                <div class="check"></div>
+            </div>
+            <div class="week">
+                <div class="day">We</div>
+                <div class="check"></div>
+            </div>
+            <div class="week">
+                <div class="day">Th</div>
+                <div class="check"></div>
+            </div>
+            <div class="week">
+                <div class="day">Fr</div>
+                <div class="check"></div>
+            </div>
+            <div class="week">
+                <div class="day">Sa</div>
+                <div class="check"></div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="text" style="padding: 15px; color: rgb(170, 170, 170); font-size: 18px;">
+            Practicing daily grows your streak, but skipping a day resets it!
+        </div>
+    </div>
+
+
+    <div class="streak-cta">
+        <div class="cta">Practice More</div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.week-cont').hide();
+            $('.streak-cta').hide();
+            $('svg').hide();
+
+            $('.streak-count').find('img').addClass('remove');
+
+            setTimeout(() => {
+                $('.streak-count').find('img').attr('src', 'Group 20961 (2).svg').removeClass('remove').addClass('show');
+                $('.fix-stroke').css('color', 'orange');
+            }, 500);
+
+            setTimeout(() => {
+                $('svg').show().addClass('showSvg');
+                $('.week-cont').show().addClass('addAnim');
+
+            }, 1000);
+
+            setTimeout(() => {
+                $('.streak-cta').show().addClass('swipeUp');
+            }, 1300);
+
+        });
+    </script>
+</body>
+
+</html>
